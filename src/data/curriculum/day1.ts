@@ -229,7 +229,7 @@ export const day1: DayCurriculum = {
       steps: [
         {
           title: '設定を開く',
-          content: 'Cmd+,で設定画面を開く',
+          content: 'Cmd + ,（カンマ）で設定画面を開く',
         },
         {
           title: 'テーマを変更',
