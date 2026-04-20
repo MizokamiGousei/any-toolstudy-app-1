@@ -17,12 +17,19 @@ export async function POST(request: NextRequest) {
     const trimmedEmail = email.trim().toLowerCase();
 
     // Sign in with Supabase Auth
-    const { error: authError } = await supabase.auth.signInWithPassword({
+    const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
       email: trimmedEmail,
       password,
     });
 
     if (authError) {
+      const message = authError.message.toLowerCase();
+      if (message.includes('email not confirmed') || message.includes('not confirmed')) {
+        return NextResponse.json(
+          { error: 'メール認証が完了していません。受信メールの確認リンクを開いてください。' },
+          { status: 403 }
+        );
+      }
       return NextResponse.json(
         { error: 'メールアドレスまたはパスワードが正しくありません' },
         { status: 401 }
@@ -30,17 +37,55 @@ export async function POST(request: NextRequest) {
     }
 
     // Find user by email in our users table
-    const { data: user, error: userError } = await supabase
+    let { data: user, error: userError } = await supabase
       .from('users')
       .select('*')
       .eq('email', trimmedEmail)
       .single();
 
+    // Backfill users record when Auth user exists but users table row is missing
     if (userError || !user) {
-      return NextResponse.json(
-        { error: 'ユーザーが見つかりません' },
-        { status: 404 }
-      );
+      const fallbackNickname = trimmedEmail.split('@')[0] || 'ユーザー';
+      const { data: createdUser, error: createError } = await supabase
+        .from('users')
+        .insert({
+          nickname: fallbackNickname,
+          email: trimmedEmail,
+          auth_id: authData.user?.id || null,
+          role: null,
+          last_active_at: new Date().toISOString(),
+        })
+        .select()
+        .single();
+
+      if (createError) {
+        // If row already exists due to race condition, re-fetch
+        const { data: existingUser, error: refetchError } = await supabase
+          .from('users')
+          .select('*')
+          .eq('email', trimmedEmail)
+          .single();
+
+        if (refetchError || !existingUser) {
+          console.error('[EmailLogin] users upsert failed:', createError);
+          return NextResponse.json(
+            { error: 'ユーザー情報の取得に失敗しました' },
+            { status: 500 }
+          );
+        }
+
+        user = existingUser;
+      } else {
+        user = createdUser;
+      }
+    }
+
+    // Keep auth_id in sync if missing
+    if (!user.auth_id && authData.user?.id) {
+      await supabase
+        .from('users')
+        .update({ auth_id: authData.user.id })
+        .eq('id', user.id);
     }
 
     // Update last_active_at
