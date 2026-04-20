@@ -76,24 +76,24 @@ export default function QuestCheckQuestions({
                   const isCorrectOption = oIndex === q.correctIndex;
 
                   let cardStyle =
-                    'border border-border bg-surface hover:bg-surface-hover';
+                    'border border-border bg-surface text-text-primary hover:bg-surface-hover';
 
                   if (hasAnswered) {
                     if (isSelected && answer.isCorrect) {
                       // User selected this and it is correct
                       cardStyle =
-                        'border-2 border-green-500 bg-green-50 text-green-800';
+                        'border-2 border-green-500 bg-green-50 text-green-900';
                     } else if (isSelected && !answer.isCorrect) {
                       // User selected this but it is wrong
                       cardStyle =
-                        'border-2 border-red-500 bg-red-50 text-red-800';
+                        'border-2 border-red-500 bg-red-50 text-red-900';
                     } else if (
                       !answer.isCorrect &&
                       isCorrectOption
                     ) {
                       // Show the correct answer when user answered wrong
                       cardStyle =
-                        'border-2 border-green-400 bg-green-50 text-green-700';
+                        'border-2 border-green-400 bg-green-50 text-green-900';
                     }
                   }
 
