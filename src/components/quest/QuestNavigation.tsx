@@ -89,7 +89,7 @@ export default function QuestNavigation({
       <div className="text-center">
         <Link
           href={`/day/${dayId}`}
-          className="inline-flex items-center gap-2 text-sm text-text-muted hover:text-primary transition-colors"
+          className="inline-flex items-center gap-2 rounded-lg border border-border bg-surface px-4 py-2 text-sm font-medium text-text-secondary shadow-sm transition-all duration-200 hover:border-slate-400/50 hover:bg-slate-100/60 hover:text-text-primary"
         >
           <svg
             className="h-4 w-4"
