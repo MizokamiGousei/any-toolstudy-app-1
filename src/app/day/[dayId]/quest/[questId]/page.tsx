@@ -224,6 +224,9 @@ export default function QuestPage() {
           onComplete={handleComplete}
           difficulty={quest.difficulty}
           currentXP={currentXP}
+          nextQuest={nextQuest}
+          prevQuest={prevQuest}
+          dayId={dayId}
         />
       )}
 
