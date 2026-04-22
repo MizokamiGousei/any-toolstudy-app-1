@@ -128,7 +128,7 @@ export default function DayPage() {
       {/* Back link */}
       <Link
         href="/dashboard"
-        className="inline-flex items-center gap-2 text-sm text-text-muted hover:text-primary transition-colors mb-6"
+        className="inline-flex items-center gap-2 rounded-lg border border-primary/20 bg-primary/5 px-4 py-2 text-sm font-medium text-primary/80 shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/35 hover:bg-primary/10 hover:text-primary md:text-base mb-6"
       >
         <svg
           className="h-4 w-4"
