@@ -29,18 +29,19 @@ export default function QuestHeader({ quest, dayTitle }: QuestHeaderProps) {
       <nav className="flex items-center gap-2 text-sm text-text-muted mb-4">
         <Link
           href="/dashboard"
-          className="hover:text-primary transition-colors"
+          className="inline-flex items-center gap-1 hover:text-primary transition-colors"
         >
-          Dashboard
+          <span aria-hidden="true">🏠</span>
+          ダッシュボード
         </Link>
-        <span>/</span>
+        <span>&gt;</span>
         <Link
           href={`/day/${quest.dayId}`}
           className="hover:text-primary transition-colors"
         >
           Day {quest.dayId}
         </Link>
-        <span>/</span>
+        <span>&gt;</span>
         <span className="text-text-secondary">{quest.title}</span>
       </nav>
 
