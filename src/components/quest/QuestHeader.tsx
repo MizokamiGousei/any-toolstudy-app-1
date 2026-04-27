@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { Quest } from '@/types';
+import { withWindowsShortcuts } from '@/lib/shortcut-display';
 
 interface QuestHeaderProps {
   quest: Quest;
@@ -99,7 +100,7 @@ export default function QuestHeader({ quest, dayTitle }: QuestHeaderProps) {
       {/* Description */}
       {quest.description && (
         <p className="mt-4 text-text-secondary leading-relaxed">
-          {quest.description}
+          {withWindowsShortcuts(quest.description)}
         </p>
       )}
     </div>

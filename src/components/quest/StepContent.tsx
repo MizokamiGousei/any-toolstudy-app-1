@@ -1,3 +1,5 @@
+import { withWindowsShortcuts } from '@/lib/shortcut-display';
+
 interface StepContentProps {
   content: string;
 }
@@ -44,8 +46,9 @@ function parseLine(line: string, key: number): React.ReactNode {
 }
 
 export default function StepContent({ content }: StepContentProps) {
+  const normalizedContent = withWindowsShortcuts(content);
   // Split into paragraphs by double newline
-  const paragraphs = content.split('\n\n');
+  const paragraphs = normalizedContent.split('\n\n');
 
   return (
     <>
