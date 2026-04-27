@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import type { CheckQuestion } from '@/types';
+import { withWindowsShortcuts } from '@/lib/shortcut-display';
 
 interface QuestCheckQuestionsProps {
   questions: CheckQuestion[];
@@ -66,7 +67,7 @@ export default function QuestCheckQuestions({
             <div key={qIndex} className="space-y-3">
               {/* Question */}
               <h3 className="font-medium text-text-primary">
-                Q{qIndex + 1}. {q.question}
+                Q{qIndex + 1}. {withWindowsShortcuts(q.question)}
               </h3>
 
               {/* Options */}
@@ -112,7 +113,9 @@ export default function QuestCheckQuestions({
                         <span className="flex-shrink-0 w-6 h-6 rounded-full border border-current flex items-center justify-center text-xs font-medium">
                           {String.fromCharCode(65 + oIndex)}
                         </span>
-                        <span className="text-sm">{option}</span>
+                        <span className="text-sm">
+                          {withWindowsShortcuts(option)}
+                        </span>
 
                         {/* Correct/incorrect icon */}
                         {hasAnswered && isSelected && answer.isCorrect && (
@@ -163,7 +166,7 @@ export default function QuestCheckQuestions({
                   <span className="font-medium">
                     {answer.isCorrect ? '正解!' : '不正解...'}
                   </span>{' '}
-                  {q.explanation}
+                  {withWindowsShortcuts(q.explanation)}
                 </div>
               )}
             </div>

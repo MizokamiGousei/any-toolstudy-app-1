@@ -1,3 +1,5 @@
+import { withWindowsShortcuts } from '@/lib/shortcut-display';
+
 interface QuestChallengeProps {
   challenge: string;
 }
@@ -10,7 +12,7 @@ export default function QuestChallenge({ challenge }: QuestChallengeProps) {
           &#x1F3AF; チャレンジ
         </h2>
         <p className="text-lg text-amber-900 leading-relaxed">
-          {challenge}
+          {withWindowsShortcuts(challenge)}
         </p>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import ExpandableSection from '@/components/ui/ExpandableSection';
+import { withWindowsShortcuts } from '@/lib/shortcut-display';
 
 interface QuestHintsProps {
   hints: string[];
@@ -21,7 +22,9 @@ export default function QuestHints({ hints }: QuestHintsProps) {
             defaultOpen={false}
             className="bg-yellow-50 border-yellow-200"
           >
-            <p className="text-text-secondary leading-relaxed">{hint}</p>
+            <p className="text-text-secondary leading-relaxed">
+              {withWindowsShortcuts(hint)}
+            </p>
           </ExpandableSection>
         ))}
       </div>
